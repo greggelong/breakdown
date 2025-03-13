@@ -59,4 +59,5 @@ function unlockAudioContext() {
       });
   }
   srate = 1;
+  button.hide();
 }
