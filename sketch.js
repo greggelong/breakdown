@@ -4,6 +4,7 @@ let sliderRate;
 let sliderPan;
 let srate = 1;
 let instruct;
+let button;
 
 function preload() {
   gregimg = loadImage("workerSign.JPG");
@@ -14,6 +15,9 @@ function setup() {
   comp = loadSound("closingLongPhil.mp3", loaded);
   pixelDensity(1);
   imageMode(CENTER);
+  button = createButton("sound");
+  button.position(width / 4, height / 2);
+  button.mouseClicked(unlockAudioContext);
   //instruct = createElement("h1");
   //instruct.position(width / 4, height / 8);
   //instruct.style("color", "#ff0000");
@@ -40,4 +44,19 @@ function draw() {
     srate = map(mouseX, 0, width, 0.5, 2);
     comp.rate(srate);
   }
+}
+
+function unlockAudioContext() {
+  const audioCtx = getAudioContext();
+  if (audioCtx.state === "suspended") {
+    audioCtx
+      .resume()
+      .then(() => {
+        console.log("Audio context unlocked");
+      })
+      .catch((err) => {
+        console.error("Failed to unlock audio context:", err);
+      });
+  }
+  srate = 1;
 }
